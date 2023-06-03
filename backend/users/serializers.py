@@ -7,14 +7,12 @@ User = get_user_model()
 
 
 class RegistrationSerializer(serializers.ModelSerializer):
-    User_Profile_image = Base64ImageField(
-        max_length=None, use_url=True, required=False, allow_null=True)
 
 
     class Meta:
         model = User_Profile
      
-        exclude = ('is_staff', 'is_active', 'Created_At', 'Updated_At','groups','user_permissions','anonymous_id','isdeleted','is_superuser','FromDate','is_verified')
+        exclude = ('is_staff', 'is_active', 'Created_At', 'Updated_At','groups','user_permissions','isdeleted','is_superuser','FromDate','is_verified')
 
         
     def create(self, validated_data):
@@ -28,7 +26,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
 
 
 class LoginSerializer(serializers.ModelSerializer):
-    MobileNo = serializers.CharField()
+    emp_id = serializers.CharField()
     password = serializers.CharField()
     class Meta:
         model = User_Profile
@@ -58,3 +56,20 @@ class CurrentUserSerializer(serializers.ModelSerializer):
         model = User_Profile
     
         exclude = ('is_staff', 'is_active', 'Created_At', 'Updated_At','groups','user_permissions','is_superuser','is_verified')
+
+
+class UserImageSerializer(serializers.ModelSerializer):
+    user = serializers.ReadOnlyField(source="user.id")
+    class Meta:
+        model = UserImage
+        fields = "__all__"
+    
+    
+    
+    # def create(self, validated_data):
+    #     user = self.context['request'].user
+    #     images = self.context['request'].FILES.getlist('image')
+    #     for image in images:
+    #         UserImage.objects.create(user=user, image=image)
+    #         print(image)
+    #     return validated_data

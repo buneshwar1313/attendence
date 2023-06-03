@@ -68,7 +68,7 @@ class loginView(generics.GenericAPIView, mixins.ListModelMixin, mixins.CreateMod
     queryset = User_Profile.objects.all()
 
     def post(self, request):
-        username = request.data.get("MobileNo")
+        username = request.data.get("emp_id")
         password = request.data.get("password")
       
         if username is None or password is None:
@@ -82,7 +82,7 @@ class loginView(generics.GenericAPIView, mixins.ListModelMixin, mixins.CreateMod
 
         token, _ = Token.objects.get_or_create(user=user)
         
-        return Response({'token': token.key,'User_Id':user.id,'Wallet_Id':wall.id,'message':'Login Successfully'},
+        return Response({'token': token.key,'User_Id':user.id,'message':'Login Successfully','hr_verify':user.hr_verify,'emp_id_verify':user.emp_id_verify},
                             status=HTTP_200_OK)
 
 
@@ -196,8 +196,45 @@ class getallusersView(generics.GenericAPIView, mixins.ListModelMixin, mixins.Cre
 
 
 
+"""Get User Details"""
 
+class UploadImages(generics.GenericAPIView, mixins.CreateModelMixin):
+    serializer_class = UserImageSerializer
+    queryset = UserImage.objects.all()
+    lookup_field = 'id'
+    permission_classes = (IsAuthenticated,)
+    authentication_classes = (TokenAuthentication,)
 
+    # def get_queryset(self):
+    #     return UserImage.objects.filter(user=self.request.id)
+
+    def get(self, request, id=None):
+        data = UserImage.objects.filter(user=self.request.user)
+        serialized_data = UserImageSerializer(data, many=True).data
+        return Response(serialized_data, status=200)
+
+    def post(self, request):
+            
+        user = request.user
+        images = request.FILES.getlist('image')
+        print(user)
+        print(images)
+        for i, image in enumerate(images):
+            if i >= 5:
+                break
+
+            # Generate a unique filename for each image
+            emp_id = user.emp_id  # Assuming emp_id is the field in User_Profile model
+            filename = f"emp_{emp_id}_image_{i + 1}.jpg"  # Replace with your desired naming convention
+
+            # Create the UserImage instance with the user and renamed image
+            user_image = UserImage(user=user, image=image)
+            user_image.image.name = filename  # Assign the new filename to the image field
+            user_image.save()
+            print("user_image",user_image)
+
+        return Response("hello", status=status.HTTP_201_CREATED)
+    
 
 
 

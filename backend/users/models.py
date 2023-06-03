@@ -73,12 +73,15 @@ class User_Profile(AbstractBaseUser,PermissionsMixin):
     class Meta:
         ordering=["-Created_At"]
     def __str__(self):
-        return f"{self.id}, {self.Uuer_Full_Name}, {self.emp_id}, "
+        return f"{self.id}, {self.user_Full_Name}, {self.emp_id}, "
     
 
 class UserImage(models.Model):
     user = models.ForeignKey(User_Profile, on_delete=models.CASCADE, related_name='images')
     image = models.ImageField(upload_to='user_images/')
+    Created_At=models.DateTimeField(auto_now_add=True, null=True)
+    Updated_At=models.DateTimeField(auto_now_add=True,null=True)
+
 
     def __str__(self):
         return f"Image {self.id} for User {self.user.emp_id}"

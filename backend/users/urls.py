@@ -10,4 +10,6 @@ urlpatterns = [
     path('getcurrentuser/', getCurrentUserView.as_view(), name='Get Current User'),
     path('getallusers/', getallusersView.as_view(), name='Get All User'),
     path('getallusers/<int:id>/', getallusersView.as_view(), name='Get All User'),
+    path('uploadImages/',UploadImages.as_view(),name="upload images"),
+    path('uploadImages/<int:id>/',UploadImages.as_view(),name="upload images"),
 ]
