@@ -214,13 +214,21 @@ class UploadImages(generics.GenericAPIView, mixins.CreateModelMixin):
         return Response(serialized_data, status=200)
 
     def post(self, request):
-            
         user = request.user
         images = request.FILES.getlist('image')
         print(user)
         print(images)
+        flag = []
+        total_images = UserImage.objects.filter(user=self.request.user).count()
+        print(total_images)
+        max_images = 5  # Maximum number of images allowed per user
+        remaining_slots = max_images - total_images
+
+        if remaining_slots <= 0:
+            return Response({"error": "You have already uploaded the maximum number of images."})
+
         for i, image in enumerate(images):
-            if i >= 5:
+            if i >= remaining_slots:
                 break
 
             # Generate a unique filename for each image
@@ -231,10 +239,13 @@ class UploadImages(generics.GenericAPIView, mixins.CreateModelMixin):
             user_image = UserImage(user=user, image=image)
             user_image.image.name = filename  # Assign the new filename to the image field
             user_image.save()
-            print("user_image",user_image)
+            print("user_image", user_image)
+            flag.append(True)
 
-        return Response("hello", status=status.HTTP_201_CREATED)
-    
+        print(flag)
+        if False in flag:
+            return Response({"data": "System has encountered some issue"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        return Response({"data": "Images uploaded successfully"}, status=status.HTTP_201_CREATED)
 
 
 
