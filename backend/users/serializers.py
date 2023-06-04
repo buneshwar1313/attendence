@@ -5,6 +5,12 @@ from drf_extra_fields.fields import Base64ImageField
 User = get_user_model()
 
 
+class locationSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model=location
+        fields ="__all__"
+
 
 class RegistrationSerializer(serializers.ModelSerializer):
 

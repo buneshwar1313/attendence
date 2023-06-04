@@ -51,13 +51,48 @@ class registration(generics.GenericAPIView, mixins.ListModelMixin, mixins.Create
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
             serializer.save()
-
+            user_id = serializer.data["id"]
             return Response({"data":serializer.data["id"],"message":"User Register successfully"})
         else:
             return Response({"error": serializer.errors}, status=HTTP_400_BAD_REQUEST)
 
 
 
+
+"""Location """
+
+
+class locationView(generics.GenericAPIView, mixins.ListModelMixin, mixins.CreateModelMixin, mixins.UpdateModelMixin,
+                mixins.RetrieveModelMixin, mixins.DestroyModelMixin):
+    serializer_class = locationSerializer
+    queryset = location.objects.all()
+    lookup_field = 'id'
+    permission_classes = (IsAuthenticated,)
+    authentication_classes = (TokenAuthentication,)
+
+    # def get_queryset(self):
+    #     return Product_Category.objects.all()
+
+ 
+
+    def get(self, request, id=None):
+        if id:
+            return self.retrieve(request, id)
+        else:
+            return self.list(request)
+
+    def delete(self, request, id=None):
+        return self.destroy(request, id)
+
+    def post(self, request):
+        return self.create(request)
+
+
+    def put(self, request, id=None):
+        return self.update(request, id)
+
+    def patch(self,request, id =None):
+        return self.partial_update(request,id)
 
 
 """Login Serializer"""

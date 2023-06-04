@@ -12,4 +12,6 @@ urlpatterns = [
     path('getallusers/<int:id>/', getallusersView.as_view(), name='Get All User'),
     path('uploadImages/',UploadImages.as_view(),name="upload images"),
     path('uploadImages/<int:id>/',UploadImages.as_view(),name="upload images"),
+    path('location/',locationView.as_view(),name="location images"),
+    path('location/<int:id>/',locationView.as_view(),name="location images"),
 ]

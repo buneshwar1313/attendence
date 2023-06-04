@@ -44,6 +44,7 @@ INSTALLED_APPS = [
 
 PROJECT_APP=[
     'users',
+    'attendance',
 ]
     
 
@@ -174,20 +175,22 @@ REST_FRAMEWORK = {
 """Jazzmin setup """
 JAZZMIN_SETTINGS = {
     # title of the window (Will default to current_admin_site.site_title if absent or None)
-    "site_title": "MB Ashtekar",
+    "site_title": "Metamind System",
+
 
     # Title on the login screen (19 chars max) (defaults to current_admin_site.site_header if absent or None)
-    "site_header": "MB Ashtekar",
+    "site_header":  "Metamind System",
+
 
     # Title on the brand (19 chars max) (defaults to current_admin_site.site_header if absent or None)
-    "site_brand": "MB Ashtekar",
+    "site_brand": "Metamind System",
 
     # Logo to use for your site, must be present in static files, used for brand on top left
 
 
     # Logo to use for your site, must be present in static files, used for login form logo (defaults to site_logo)
-    "welcome_sign": "Welcome to the MB Ashtekar",
-    "copyright": "Ec infosolutions",
+    "welcome_sign": "Welcome to the Metamind system",
+    "copyright": "Buneshwar Tendulkar",
     "show_ui_builder": True,
     "navbar_fixed": True,
     "sidebar_fixed": True,

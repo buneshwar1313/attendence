@@ -45,6 +45,15 @@ class UserManager(BaseUserManager):
 
 
 
+class location(models.Model):
+    location_city=models.CharField(max_length=200,null=True,blank=True)
+    Created_At=models.DateTimeField(auto_now_add=True, null=True)
+    Updated_At=models.DateTimeField(auto_now_add=True,null=True)
+
+    def __str__(self):
+        return f"{self.id}, {self.location_city}, "
+
+
 
    
 
@@ -61,6 +70,7 @@ class User_Profile(AbstractBaseUser,PermissionsMixin):
     is_verified = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=True)
     is_active = models.BooleanField(default=True)
+    location=models.ForeignKey(location,on_delete=models.CASCADE,null=True,blank=True)
     Created_At=models.DateTimeField(auto_now_add=True, null=True)
     Updated_At=models.DateTimeField(auto_now_add=True,null=True)
 

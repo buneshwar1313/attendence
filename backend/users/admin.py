@@ -8,3 +8,4 @@ class UserImageAdmin(admin.ModelAdmin):
 
 admin.site.register(User_Profile)
 admin.site.register(UserImage,UserImageAdmin)
+admin.site.register(location)
