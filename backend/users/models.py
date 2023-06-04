@@ -88,7 +88,7 @@ class User_Profile(AbstractBaseUser,PermissionsMixin):
 
 class UserImage(models.Model):
     user = models.ForeignKey(User_Profile, on_delete=models.CASCADE, related_name='images')
-    image = models.ImageField(upload_to='user_images/')
+    image = ResizedImageField(size=[500, 300],force_format='PNG',upload_to='user_images/')
     Created_At=models.DateTimeField(auto_now_add=True, null=True)
     Updated_At=models.DateTimeField(auto_now_add=True,null=True)
 
